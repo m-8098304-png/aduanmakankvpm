@@ -2355,7 +2355,49 @@ function exportMyCsv(){
   document.body.appendChild(a); a.click(); document.body.removeChild(a);
   URL.revokeObjectURL(url);
 }
-</script>
+
+  <script type="module">
+    // Import Firebase SDK
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-analytics.js";
+    import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-database.js";
+
+    // Konfigurasi Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyD7tjIkgpl40qXGCN2tze9ToR8HAsjD_1g",
+      authDomain: "aduandewanmakankvpm.firebaseapp.com",
+      projectId: "aduandewanmakankvpm",
+      storageBucket: "aduandewanmakankvpm.firebasestorage.app",
+      messagingSenderId: "928243856578",
+      appId: "1:928243856578:web:4cdcc8f341b9433fb2775b",
+      measurementId: "G-HF9LMCVDPG"
+    };
+
+    // Inisialisasi Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const database = getDatabase(app);
+
+    // Fungsi untuk menghantar aduan ke Firebase
+    function hantarAduan() {
+      const aduan = document.getElementById("aduan").value;
+      const aduanId = Date.now(); // Gunakan timestamp sebagai ID unik
+
+      // Referensi kepada path 'aduan'
+      const aduanRef = ref(database, 'aduan/' + aduanId);
+
+      set(aduanRef, {
+        mesej: aduan,
+        masa: new Date().toISOString()
+      }).then(() => {
+        alert("Aduan berjaya dihantar");
+      }).catch((error) => {
+        console.log("Ralat semasa menghantar aduan:", error);
+      });
+    }
+  </script>
+
+
 </body>
 </html>
 
